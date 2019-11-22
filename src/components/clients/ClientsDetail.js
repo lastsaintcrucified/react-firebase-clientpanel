@@ -6,8 +6,61 @@ import { firestoreConnect } from "react-redux-firebase";
 import Spinner from "./Spinner";
 
 class ClientsDetail extends Component {
+  state = {
+    displayUpdate: false,
+    updateAmount: ""
+  };
+
+  onChange = e => this.setState({ [e.target.name]: e.target.value });
+
+  onSubmit = e => {
+    e.preventDefault();
+    const id = this.props.match.params.id;
+    const newBalance = this.state.updateAmount;
+    const { firestore } = this.props;
+    const clientUpdate = {
+      balance: newBalance
+    };
+    firestore.update({ collection: "clients", doc: id }, clientUpdate);
+    this.setState({ displayUpdate: false });
+  };
+
+  onDelete = () => {
+    const id = this.props.match.params.id;
+    const { firestore, history } = this.props;
+    firestore
+      .delete({ collection: "clients", doc: id })
+      .then(history.push("/"));
+  };
+
+  toggleDisplay = () => {
+    this.setState({ displayUpdate: true });
+  };
+
   render() {
     const { client } = this.props;
+    const id = this.props.match.params.id;
+    const { displayUpdate, updateAmount } = this.state;
+    var updateForm = "";
+    if (displayUpdate) {
+      updateForm = (
+        <form onSubmit={this.onSubmit} className="my-4">
+          <input
+            className="form-control"
+            type="text"
+            name="updateAmount"
+            value={updateAmount}
+            placeholder={client.balance}
+            onChange={this.onChange}
+          />
+          <button className="btn btn-sm btn-primary my-2" type="submit">
+            update
+          </button>
+        </form>
+      );
+    } else {
+      updateForm = null;
+    }
     if (client) {
       return (
         <div className="container">
@@ -19,14 +72,15 @@ class ClientsDetail extends Component {
             </div>
             <div className="col-md-2">
               <Link
-                to="/client/edit/:id"
+                to={`/client/edit/${id}`}
                 className="btn btn-md btn-outline-secondary mr-1"
               >
                 Edit
               </Link>
               <Link
-                to="/client/delete/:id"
+                to="/"
                 className="btn btn-md btn-outline-danger"
+                onClick={this.onDelete}
               >
                 Delete
               </Link>
@@ -36,6 +90,7 @@ class ClientsDetail extends Component {
             <table className="table table-bordered">
               <thead className="thead-dark">
                 <tr>
+                  <th scope="col">Client Id</th>
                   <th scope="col">Name</th>
                   <th scope="col">Phone</th>
                   <th scope="col">Email</th>
@@ -44,6 +99,7 @@ class ClientsDetail extends Component {
               </thead>
               <tbody>
                 <tr>
+                  <td>{id}</td>
                   <td>
                     {client.firstName} {client.lastName}
                   </td>
@@ -51,6 +107,10 @@ class ClientsDetail extends Component {
                   <td>{client.email}</td>
                   <td>
                     <strong>{parseFloat(client.balance).toFixed(2)}</strong>
+                    <button onClick={this.toggleDisplay} className="mx-4">
+                      <i className="fa fa-pencil" aria-hidden="true"></i>
+                    </button>
+                    {updateForm}
                   </td>
                 </tr>
               </tbody>
