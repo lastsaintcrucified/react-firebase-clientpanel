@@ -21,11 +21,11 @@ class Settings extends Component {
     setAllowRegistration();
   };
   render() {
-    // const {
-    //   disableBalanceOnAdd,
-    //   disableBalanceOnEdit,
-    //   allowRegistration
-    // } = this.props;
+    const {
+      disableBalanceOnAdd,
+      disableBalanceOnEdit,
+      allowRegistration
+    } = JSON.parse(localStorage.getItem("settings"));
     return (
       <div>
         <div className="row">
@@ -44,6 +44,7 @@ class Settings extends Component {
                 <input
                   className="form-check-input"
                   type="checkbox"
+                  checked={allowRegistration ? "checked" : null}
                   id="allowRegistration"
                   name="allowRegistration"
                   onChange={this.allowRegistrationChange}
@@ -56,6 +57,7 @@ class Settings extends Component {
                 <input
                   className="form-check-input"
                   type="checkbox"
+                  checked={disableBalanceOnAdd ? "checked" : null}
                   id="disableBalanceOnAdd"
                   name="disableBalanceOnAdd"
                   onChange={this.disableBalanceOnAddChange}
@@ -72,6 +74,7 @@ class Settings extends Component {
                   className="form-check-input"
                   id="disableBalanceOnEdit"
                   type="checkbox"
+                  checked={disableBalanceOnEdit ? "checked" : null}
                   name="disableBalanceOnEdit"
                   onChange={this.disableBalanceOnEditChange}
                 />
@@ -79,7 +82,7 @@ class Settings extends Component {
                   className="form-check-label"
                   htmlFor="disableBalanceOnEdit"
                 >
-                  Disable Balance On Add{" "}
+                  Disable Balance On Edit{" "}
                 </label>
               </div>
             </form>
