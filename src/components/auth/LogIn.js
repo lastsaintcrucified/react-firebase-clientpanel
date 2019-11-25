@@ -30,9 +30,7 @@ class LogIn extends Component {
   };
   render() {
     const { message, messageType } = this.props.notify;
-    const { disableBalanceOnAdd } = JSON.parse(
-      localStorage.getItem("settings")
-    );
+
     return (
       <div className="container">
         <div className="row">
@@ -77,9 +75,8 @@ class LogIn extends Component {
                     value="Login"
                   />
                 </form>
-                {disableBalanceOnAdd ? (
-                  <Link to="/registration">Register Now!</Link>
-                ) : null}
+
+                <Link to="/registration">Register Now!</Link>
               </div>
             </div>
           </div>
