@@ -14,10 +14,9 @@ class AppNavbar extends Component {
 
   render() {
     const { auth } = this.props;
-    console.log(auth.id);
 
     return (
-      <nav className="navbar navbar-expand-md navbar-dark bg-primary mb-4">
+      <nav className="navbar navbar-expand-md navbar-dark bg-secondary mb-4">
         <div className="conatiner">
           <ul className="nav">
             <li className="nav-item">

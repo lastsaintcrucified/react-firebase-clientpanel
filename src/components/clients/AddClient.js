@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+// import { compose } from "redux";
+// import { connect } from "react-redux";
 import { firestoreConnect } from "react-redux-firebase";
 
 class AddClient extends Component {
@@ -25,6 +27,9 @@ class AddClient extends Component {
     this.props.history.push("/");
   };
   render() {
+    const { disableBalanceOnAdd } = JSON.parse(
+      localStorage.getItem("settings")
+    );
     return (
       <div>
         <Link to="/">
@@ -72,6 +77,7 @@ class AddClient extends Component {
               className="form-control form-control-sm"
               onChange={this.onChange}
               name="balance"
+              disabled={disableBalanceOnAdd ? "disabled" : null}
               value={this.state.balance}
               required
             />

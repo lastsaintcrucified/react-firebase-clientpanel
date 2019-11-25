@@ -42,6 +42,9 @@ class ClientsDetail extends Component {
     const id = this.props.match.params.id;
     const { displayUpdate, updateAmount } = this.state;
     var updateForm = "";
+    const { disableBalanceOnEdit } = JSON.parse(
+      localStorage.getItem("settings")
+    );
     if (displayUpdate) {
       updateForm = (
         <form onSubmit={this.onSubmit} className="my-4">
@@ -49,6 +52,7 @@ class ClientsDetail extends Component {
             className="form-control"
             type="text"
             name="updateAmount"
+            disabled={disableBalanceOnEdit ? "disabled" : null}
             value={updateAmount}
             placeholder={client.balance}
             onChange={this.onChange}

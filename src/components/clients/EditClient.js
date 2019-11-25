@@ -34,6 +34,9 @@ class EditClient extends Component {
   };
   render() {
     const { client } = this.props;
+    const { disableBalanceOnEdit } = JSON.parse(
+      localStorage.getItem("settings")
+    );
     if (client) {
       return (
         <div>
@@ -84,6 +87,7 @@ class EditClient extends Component {
                 type="text"
                 className="form-control form-control-sm"
                 onChange={this.onChange}
+                disabled={disableBalanceOnEdit ? "disabled" : null}
                 name="balance"
                 placeholder={client.balance}
                 value={this.state.balance}
